@@ -1,13 +1,33 @@
 // ignore_for_file: public_member_api_docs, sort_constructors_first
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
-
 import 'package:location_app/app_router.dart';
 
-void main() async {
-WidgetsFlutterBinding.ensureInitialized();
-await Firebase.initializeApp();
+import 'core/constant/mu_strigs.dart';
 
+
+late String initalRoute;
+
+
+
+
+
+
+
+
+void main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+  await Firebase.initializeApp();
+
+FirebaseAuth.instance.authStateChanges().listen((user){
+if(user==null){
+  initalRoute = loginScreen;
+}
+else{
+  initalRoute = mapScreen;
+}
+});
 
 
 
@@ -33,6 +53,7 @@ class MyApp extends StatelessWidget {
         primarySwatch: Colors.blue,
       ),
       onGenerateRoute: appRouter.generateRoute,
+      initialRoute: initalRoute,
     );
   }
 }
